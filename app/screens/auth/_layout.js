@@ -23,9 +23,10 @@ const Layout = () => {
 const authRoute = 1
 
   return (
-    <Stack initialRouteName="onboarding">
+    <Stack initialRouteName="verification">
       <Stack.Screen name="onboarding" />
       <Stack.Screen name="login" />
+      <Stack.Screen name="verification" />
       <Stack.Screen name="signup" />
       {/* <Stack.Screen name="onboarding" /> */}
     </Stack>
