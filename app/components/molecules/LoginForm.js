@@ -38,7 +38,7 @@ export default function LoginForm() {
           <>
               <Text style={styles.emailLabel}>Email or Phone number</Text>
 
-              <CustomInput
+              <CustomInputz
                 onChangeText={handleChange("mailOrPhoneField")}
                 value={values.mailOrPhoneField}
                 placeholder={"Enter Email or Phone number"}

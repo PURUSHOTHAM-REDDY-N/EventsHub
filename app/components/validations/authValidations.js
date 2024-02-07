@@ -15,4 +15,11 @@ const LoginSchema = Yup.object().shape({
       
   });
 
-  export{LoginSchema,SignUpSchema}
+  const VerificationSchema = Yup.object().shape({
+    VerificationField: Yup.string()
+      .min(5, "Should be min of 5 characters")
+      .max(5, "Should be max of 5 characters")
+      
+  });
+
+  export{LoginSchema,SignUpSchema,VerificationSchema}

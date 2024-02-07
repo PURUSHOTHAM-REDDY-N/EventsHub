@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native'
 import { Stack } from 'expo-router';
 import { COLORS } from '../../../constants';
+import VerificationForm from '../../components/molecules/VerificationForm'
 import React from 'react'
 
 
@@ -19,16 +20,21 @@ export default function verification() {
         <Text style={styles.subText}>Enter 6 digit verification code sent to your email or phone number</Text>
       </View>
       {/* Login Form Component */}
+      <VerificationForm/>
       {/* <LoginForm /> */}
       {/* divider with Text */}
-      <View style={{ flexDirection: "row", alignItems: "center", marginTop:28 }}>
+      {/* <View style={{ flexDirection: "row", alignItems: "center", marginTop:28 }}>
         <View style={{ flex: 1, height: 2, backgroundColor: COLORS.grey1 }} />
         <View>
           <Text style={styles.dividerText}>or login with</Text>
         </View>
         <View style={{ flex: 1, height: 2, backgroundColor: COLORS.grey1 }} />
+      </View> */}
+      {/* resend text */}
+      <View style={{marginTop:24,flex:1,flexDirection:"row",justifyContent:"center"}}>
+        <Text style={styles.resendText}>Didn't receive code? </Text>
+        <Text onPress={()=>router.push('screens/auth/signup')} style={[styles.resendText,{textDecorationLine:"underline",color:COLORS.primary}]}>Resend</Text>
       </View>
-      
     </SafeAreaView>
   )
 }
@@ -65,6 +71,12 @@ const styles = StyleSheet.create({
       borderColor:"black"
     },
     signUpText:{
+      fontWeight:"500",
+      fontSize:14,
+      color:COLORS.grey1
+      
+    },
+    resendText:{
       fontWeight:"500",
       fontSize:14,
       color:COLORS.grey1
