@@ -1,0 +1,5 @@
+eas login   ----- to login to the expo (only first time)
+eas build:configure  ----- run and select android to create android project with ID (onlt first time)
+eas build --platform android      ------ run to build android
+eas build --profile development --platform android  ------  development build
+eas credentials ---
