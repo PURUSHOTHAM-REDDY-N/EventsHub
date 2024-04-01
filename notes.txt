@@ -1,0 +1,16 @@
+
+========================== expo ================================
+
+eas login   ----- to login to the expo (only first time)
+eas build:configure  ----- run and select android to create android project with ID (onlt first time)
+eas build --platform android      ------ run to build android
+eas build --profile development --platform android  ------  development build
+eas credentials ---
+
+=========================== other ===============================
+
+solution for tunneling problem
+https://stackoverflow.com/questions/69497823/i-try-to-connect-my-expo-app-to-localhost-backend-but-it-doesnt-work
+
+
+===================================================================

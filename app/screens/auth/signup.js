@@ -1,4 +1,4 @@
-import { View, Text , SafeAreaView , StyleSheet } from 'react-native'
+import { View, Text , SafeAreaView , StyleSheet , ScrollView } from 'react-native'
 import { Stack, useRouter,router } from "expo-router";
 import React from 'react'
 import { COLORS } from '../../../constants'
@@ -17,9 +17,11 @@ export default function signup() {
           headerShown: false,
         }}
       />
+      <ScrollView>
+
     {/* Welcome Text   */}
     <View style={{ marginTop: 65 }}>
-        <Text style={styles.welcomeText}>Welcome! to EventPlanner</Text>
+        <Text style={styles.welcomeText}>Welcome! to EventsHub</Text>
         <Text style={styles.subText}>Sign up to create account</Text>
     </View>
     {/* SignUp Form Component */}
@@ -28,19 +30,20 @@ export default function signup() {
       <View style={{ flexDirection: "row", alignItems: "center", marginTop:28 }}>
         <View style={{ flex: 1, height: 2, backgroundColor: COLORS.grey1 }} />
         <View>
-          <Text style={styles.dividerText}>or sign up with</Text>
+          <Text style={styles.dividerText}>or</Text>
         </View>
         <View style={{ flex: 1, height: 2, backgroundColor: COLORS.grey1 }} />
       </View>
       {/* social Login */}
       <View style={{ flexDirection: "row", alignItems: "center", marginTop:28 }}>
-      <CustomOutlinebtn iconLeft={<Ionicons name={"logo-google"} size={18} style={{marginRight:8}} color={COLORS.grey2} />} style={styles.customButton} title="SignUp Through Google" />
+      <CustomOutlinebtn onPress={()=>router.push('screens/auth/login')} style={styles.customButton} title="Login" />
       </View>
       {/* Login text */}
-      <View style={{marginTop:24,flex:1,flexDirection:"row",justifyContent:"center"}}>
+      {/* <View style={{marginTop:24,flex:1,flexDirection:"row",justifyContent:"center"}}>
         <Text style={styles.signUpText}>Already have an account? </Text>
         <Text onPress={()=>router.back()} style={[styles.signUpText,{textDecorationLine:"underline",color:COLORS.primary}]}>Login</Text>
-      </View>
+      </View> */}
+</ScrollView>
       </SafeAreaView>
   )
 }

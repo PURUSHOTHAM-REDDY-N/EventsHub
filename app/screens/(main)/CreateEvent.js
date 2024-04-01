@@ -1,8 +1,9 @@
 import { SafeAreaView, ScrollView, View } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import { Link } from "expo-router";
+import CreateEventForm from "../../components/molecules/CreateEventForm";
 
-const Profile = () => {
+const Create = () => {
   const router = useRouter();
   return (
     <SafeAreaView >
@@ -11,13 +12,15 @@ const Profile = () => {
           headerShown: false,
         }}
       />
-      <View style={{marginBottom:40}}>
+      <ScrollView>
 
-        <Link href="/profile/settings">About</Link>
-        {/* ...other links */}
+      <View style={{marginHorizontal:20}}>
+        
+        <CreateEventForm/>
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default Profile;
+export default Create;

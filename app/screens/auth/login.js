@@ -1,11 +1,9 @@
-import { SafeAreaView, ScrollView, View, Text, StyleSheet } from "react-native";
+import { SafeAreaView, ScrollView, View, Text, StyleSheet,ScrolView } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import { Link } from "expo-router";
 import { COLORS, icons, images, SIZES } from "../../../constants";
 import LoginForm from "../../components/molecules/LoginForm";
-import CustomButton from "../../components/atoms/CustomButton";
 import CustomOutlinebtn from "../../components/atoms/CustomOutlinebtn";
-import { Ionicons } from "@expo/vector-icons";
 
 
 const Login = () => {
@@ -17,9 +15,11 @@ const Login = () => {
           headerShown: false,
         }}
       />
+      <ScrollView>
+
       {/* Welcome Text   */}
       <View style={{ marginTop: 65 }}>
-        <Text style={styles.welcomeText}>Welcome! to EventPlanner</Text>
+        <Text style={styles.welcomeText}>Welcome! to EventsHub</Text>
         <Text style={styles.subText}>Login to continue</Text>
       </View>
       {/* Login Form Component */}
@@ -28,19 +28,20 @@ const Login = () => {
       <View style={{ flexDirection: "row", alignItems: "center", marginTop:28 }}>
         <View style={{ flex: 1, height: 2, backgroundColor: COLORS.grey1 }} />
         <View>
-          <Text style={styles.dividerText}>or login with</Text>
+          <Text style={styles.dividerText}>or</Text>
         </View>
         <View style={{ flex: 1, height: 2, backgroundColor: COLORS.grey1 }} />
       </View>
       {/* social Login */}
       <View style={{ flexDirection: "row", alignItems: "center", marginTop:28 }}>
-      <CustomOutlinebtn iconLeft={<Ionicons name={"logo-google"} size={18} style={{marginRight:8}} color={COLORS.grey2} />} style={styles.customButton} title="Login Through Google" />
+      <CustomOutlinebtn onPress={()=>router.push('screens/auth/Signup')} style={styles.customButton} title="Sign Up" />
       </View>
       {/* signup text */}
-      <View style={{marginTop:24,flex:1,flexDirection:"row",justifyContent:"center"}}>
+      {/* <View style={{marginTop:24,flex:1,flexDirection:"row",justifyContent:"center"}}>
         <Text style={styles.signUpText}>Don’t have an account? </Text>
         <Text onPress={()=>router.push('screens/auth/signup')} style={[styles.signUpText,{textDecorationLine:"underline",color:COLORS.primary}]}>Sign up</Text>
-      </View>
+      </View> */}
+      </ScrollView>
     </SafeAreaView>
   );
 };

@@ -4,7 +4,7 @@ import { Stack } from "expo-router";
 
 export default function _layout() {
   return (
-    <Stack>
+    <Stack initialRouteName="index">
         <Stack.Screen name='index' options={{headerTitle:"profile"}}/>
         <Stack.Screen name='settings' options={{headerTitle:"settings"}}/>
     </Stack>

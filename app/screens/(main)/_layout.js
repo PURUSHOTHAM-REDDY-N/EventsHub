@@ -1,55 +1,53 @@
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import { Tabs } from 'expo-router';
+import { Ionicons } from "@expo/vector-icons";
+import AvatarImage from "../../components/atoms/AvatarImage";
+import { COLORS } from "../../../constants";
+import { getDataFromStorage } from "../../utils/storage";
 
-// import * as SplashScreen from "expo-splash-screen";
-
-// SplashScreen.preventAutoHideAsync();
 
 export const unstable_settings = {
-  // Ensure any route can link back to `/`
   initialRouteName: "/",
 };
-
+const user = async ()=> await getDataFromStorage("auth").then((data)=>console.log(data))
 const Layout = () => {
-//   const [fontsLoaded] = useFonts({
-//     DMBold: require("../assets/fonts/DMSans-Bold.ttf"),
-//     DMMedium: require("../assets/fonts/DMSans-Medium.ttf"),
-//     DMRegular: require("../assets/fonts/DMSans-Regular.ttf"),
-//   });
-
-//   if (!fontsLoaded) {
-//     return null;
-//   }
   return (
-    <Tabs>
+    <Tabs screenOptions={{ tabBarHideOnKeyboard: true}}>
 			<Tabs.Screen
 				name="home"
 				options={{
-					tabBarLabel: 'Home',
+					tabBarShowLabel:false,
+					tabBarStyle:{borderCurve:'circular',borderRadius:20,height:70},
 					headerTitle: 'Home Screen',
+					tabBarIcon:({focused, color, size}) => (
+						<Ionicons name={focused ? 'home' : 'home-outline'} color={COLORS.primary} size={30} />)
 					
 				}}
 			/>
-			{/* <Tabs.Screen
-				name="auth"
+			<Tabs.Screen
+				name="CreateEvent"
 				options={{
-					tabBarLabel: 'Login',
-					headerTitle: 'My Account',
+					tabBarShowLabel:false,
+					tabBarStyle:{borderCurve:'circular',borderRadius:20,height:70},
+					headerTitle: 'Create Event Screen',
+					tabBarIcon:({focused, color, size}) => (
+						<Ionicons name={focused ? 'add-outline' : 'add-circle-outline'} color={COLORS.primary} size={30} />)
+					
 				}}
-			/> */}
+			/>
 			<Tabs.Screen
 				name="profile"
 				options={{
+					tabBarShowLabel:false,
+					tabBarStyle:{borderCurve:'circular',borderRadius:20,height:70},
 					headerShown:false,
-					tabBarLabel: 'Account',
 					headerTitle: 'My Account',
+					tabBarIcon:({focused, color, size}) => (
+						<AvatarImage  name={user.username} round={true} color={COLORS.primary} size={30}/>)
 				}}
 			/>
 		</Tabs>
-    // <Stack initialRouteName="home">
-    // <Stack.Screen name="home" />
-    // </Stack>
   )
 };
 

@@ -13,11 +13,13 @@ export const unstable_settings = {
 
 const Layout = () => {
 
-const authRoute = 0
+const authRoute = 1
+
 
   return (
     <Stack screenOptions={{headerShown:false}}>
-      {authRoute?<Stack.Screen name="(main)"/>:<Stack.Screen name="auth"/>}
+      <Stack.Screen name="auth"/>
+      <Stack.Screen name="events"/>
     </Stack>
   )
 };

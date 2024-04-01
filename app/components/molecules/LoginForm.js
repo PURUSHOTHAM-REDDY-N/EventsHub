@@ -3,8 +3,7 @@ import {
   View,
   Text,
   StyleSheet,
-  TextInput,
-  TouchableOpacity,
+  ToastAndroid
 } from "react-native";
 import { COLORS } from "../../../constants";
 import { Ionicons } from "@expo/vector-icons";
@@ -13,16 +12,51 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import CustomButton from "../atoms/CustomButton";
 import { LoginSchema } from "../validations/authValidations";
+import createAxiosInstance from "../../utils/api";
+import { useNavigation, router } from "expo-router";
+import { storeDataInStorage } from "../../utils/storage";
 
 export default function LoginForm() {
+  const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
+
+  const goToHome = () => {
+    router.replace("screens/(main)/home");
+  };
+
+  const fetchData = async (values) => {
+    setLoading(true)
+    const api = await createAxiosInstance();
+    api
+      .post(`/auth/login`, values)
+      .then(async (response) => {
+        // handle success
+        console.log(response);
+        if (response.status === 200) {
+          setLoading(false)
+
+          //send to login page here
+          ToastAndroid.show('Login successfull!', ToastAndroid.LONG);
+          await storeDataInStorage("auth", response.data);
+          goToHome();
+        }
+      })
+      .catch((error) => {
+        setLoading(false)
+        ToastAndroid.show(error.message, ToastAndroid.LONG);
+
+        console.log(error);
+      });
+  };
 
   return (
     <View style={styles.container}>
       <Formik
-        initialValues={{ mailOrPhoneField: "" }}
+        initialValues={{ email: "", password: "" }}
         validationSchema={LoginSchema}
         onSubmit={(values) => {
-          console.log(values);
+          // make API request
+          fetchData(values);
         }}
       >
         {({
@@ -36,25 +70,39 @@ export default function LoginForm() {
           /* and other goodies */
         }) => (
           <>
-              <Text style={styles.emailLabel}>Email or Phone number</Text>
+            <Text style={styles.emailLabel}>Email</Text>
 
-              <CustomInputz
-                onChangeText={handleChange("mailOrPhoneField")}
-                value={values.mailOrPhoneField}
-                placeholder={"Enter Email or Phone number"}
-                icon={"mail-outline"}
+            <CustomInput
+              onChangeText={handleChange("email")}
+              value={values.email}
+              placeholder={"Enter Email or Phone number"}
+              icon={"mail-outline"}
+            />
+            {touched.email && errors.email && (
+              <Text style={styles.errorText}>{errors.email}</Text>
+            )}
+            <Text onPress={() => goToHome()} style={styles.passwordLabel}>
+              Password
+            </Text>
+
+            <CustomInput
+              onChangeText={handleChange("password")}
+              value={values.password}
+              placeholder={"Enter password"}
+              icon={"mail-outline"}
+            />
+            {touched.password && errors.password && (
+              <Text style={styles.errorText}>{errors.password}</Text>
+            )}
+
+            <View style={{ marginTop: 48 }}>
+              <CustomButton
+              loading={loading}
+                disabled={!isValid}
+                onPress={handleSubmit}
+                title="Login"
               />
-              {touched.mailOrPhoneField && errors.mailOrPhoneField && (
-                <Text style={styles.errorText}>{errors.mailOrPhoneField}</Text>
-              )}
-            
-              <View style={{ marginTop: 48 }}>
-                <CustomButton
-                  disabled={!isValid}
-                  onPress={handleSubmit}
-                  title="Send Verification code"
-                />
-              </View>
+            </View>
           </>
         )}
       </Formik>
@@ -71,6 +119,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
     marginBottom: 16,
+  },
+  passwordLabel: {
+    color: COLORS.black,
+    fontSize: 16,
+    fontWeight: "500",
+    marginBottom: 16,
+    marginTop: 28,
   },
   formContainer: {
     flexDirection: "row",

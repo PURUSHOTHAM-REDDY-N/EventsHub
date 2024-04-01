@@ -26,7 +26,7 @@ export default function onboarding() {
   const data = [
     {
       id: "1",
-      text: "Lorem ipsum dolor sit amet consectetur. Feugiat urna ultrices sodales ut malesuada hendrerit sit. Quam pretium Feugiat urna ultrices",
+      text: "Events Hub Your go-to platform for seamless event hosting and management",
       animation: (
         <LottieView
         style={{ width: "100%", height: "60%", justifyContent: 'center', alignItems: 'center', }}
@@ -38,11 +38,11 @@ export default function onboarding() {
     },
     {
       id: "2",
-      text: "Lorem ipsum dolor sit amet consectetur. Feugiat urna ultrices sodales ut malesuada hendrerit sit. Quam pretium Feugiat urna ultrices",
+      text: "Explore a variety of events happening around you, from conferences to social gatherings.",
       animation: (
         <LottieView
         style={{ width: "100%", height: "60%", justifyContent: 'center', alignItems: 'center', }}
-          source={require("../../../assets/animations/slide1.json")}
+          source={require("../../../assets/animations/slide2.json")}
           autoPlay
           loop
         />
@@ -50,11 +50,11 @@ export default function onboarding() {
     },
     {
       id: "3",
-      text: "Lorem ipsum dolor sit amet consectetur. Feugiat urna ultrices sodales ut malesuada hendrerit sit. Quam pretium Feugiat urna ultrices",
+      text: "Plan and host events with ease using our intuitive tools. Manage invitations, RSVPs, and more.",
       animation: (
         <LottieView
         style={{ width: "100%", height: "60%", justifyContent: 'center', alignItems: 'center', }}
-          source={require("../../../assets/animations/slide1.json")}
+          source={require("../../../assets/animations/slide3.json")}
           autoPlay
           loop
         />
@@ -62,11 +62,11 @@ export default function onboarding() {
     },
     {
       id: "4",
-      text: "Lorem ipsum dolor sit amet consectetur. Feugiat urna ultrices sodales ut malesuada hendrerit sit. Quam pretium Feugiat urna ultrices",
+      text: "Customize your event experience with personalized recommendations based on your interests and preferences.",
       animation: (
         <LottieView
         style={{ width: "100%", height: "60%", justifyContent: 'center', alignItems: 'center', }}
-          source={require("../../../assets/animations/slide1.json")}
+          source={require("../../../assets/animations/slide4.json")}
           autoPlay
           loop
         />
@@ -74,11 +74,11 @@ export default function onboarding() {
     },
     {
       id: "5",
-      text: "Lorem ipsum dolor sit amet consectetur. Feugiat urna ultrices sodales ut malesuada hendrerit sit. Quam pretium Feugiat urna ultrices",
+      text: "Receive timely updates, event reminders, and important notifications to ensure you never miss out.",
       animation: (
         <LottieView
         style={{ width: "100%", height: "60%", justifyContent: 'center', alignItems: 'center', }}
-          source={require("../../../assets/animations/slide1.json")}
+          source={require("../../../assets/animations/slide5.json")}
           autoPlay
           loop
         />

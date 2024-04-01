@@ -1,11 +1,6 @@
 import { React, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import { Redirect, useNavigation } from "expo-router";
+import { View, Text, StyleSheet, ToastAndroid } from "react-native";
 import { COLORS } from "../../../constants";
 import { Ionicons } from "@expo/vector-icons";
 import CustomInput from "../atoms/CustomInput";
@@ -13,15 +8,45 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import CustomButton from "../atoms/CustomButton";
 import { SignUpSchema } from "../validations/authValidations";
+import createAxiosInstance from "../../utils/api";
 
 export default function SignUpForm() {
+  const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
+
+  const fetchData = async (values) => {
+    const api = await createAxiosInstance();
+    api
+      .post(`/auth/register`, values)
+      .then((response) => {
+        // handle success
+        console.log(response.status);
+        if (response.status === 200) {
+          setLoading(false);
+          ToastAndroid.show("Signup successfull!", ToastAndroid.LONG);
+          //send to login page here
+          navigation.navigate("login");
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        ToastAndroid.show(error.message, ToastAndroid.LONG);
+        console.log(error);
+      });
+  };
+
   return (
     <View style={styles.container}>
       <Formik
-        initialValues={{ mailOrPhoneField: "", firstAndLastName: "" }}
+        initialValues={{
+          email: "",
+          username: "",
+          password: "",
+        }}
         validationSchema={SignUpSchema}
         onSubmit={(values) => {
-          console.log(values);
+          // make API request
+          fetchData(values);
         }}
       >
         {({
@@ -35,37 +60,50 @@ export default function SignUpForm() {
           /* and other goodies */
         }) => (
           <>
-            <Text style={styles.label}>Email or Phone number</Text>
+            <Text style={styles.label}>Enter Email</Text>
 
             <CustomInput
-              onChangeText={handleChange("mailOrPhoneField")}
-              value={values.mailOrPhoneField}
-              placeholder={"Enter Email or Phone number"}
+              onChangeText={handleChange("email")}
+              value={values.email}
+              placeholder={"Enter Email"}
               icon={"mail-outline"}
             />
-            {touched.mailOrPhoneField && errors.mailOrPhoneField && (
-              <Text style={styles.errorText}>{errors.mailOrPhoneField}</Text>
+
+            {touched.email && errors.email && (
+              <Text style={styles.errorText}>{errors.email}</Text>
             )}
 
-            <Text style={[styles.label, { marginTop: 32 }]}>
-            First and Last name
-            </Text>
+            <Text style={[styles.label, { marginTop: 32 }]}>User Name</Text>
 
             <CustomInput
-              onChangeText={handleChange("firstAndLastName")}
-              value={values.firstAndLastName}
+              onChangeText={handleChange("username")}
+              value={values.username}
               placeholder={"Enter First and Last name"}
               icon={"person-outline"}
             />
-            {touched.mailOrPhoneField && errors.mailOrPhoneField && (
-              <Text style={styles.errorText}>{errors.mailOrPhoneField}</Text>
+            {touched.username && errors.username && (
+              <Text style={styles.errorText}>{errors.username}</Text>
+            )}
+
+            <Text style={[styles.label, { marginTop: 32 }]}>Password</Text>
+
+            <CustomInput
+              onChangeText={handleChange("password")}
+              value={values.password}
+              placeholder={"Enter Password"}
+              icon={"key-outline"}
+              secureTextEntry={true}
+            />
+            {touched.password && errors.password && (
+              <Text style={styles.errorText}>{errors.password}</Text>
             )}
 
             <View style={{ marginTop: 48 }}>
               <CustomButton
+                loading={loading}
                 disabled={!isValid}
                 onPress={handleSubmit}
-                title="Send Verification code"
+                title="Sign Up"
               />
             </View>
           </>
