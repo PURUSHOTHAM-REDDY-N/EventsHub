@@ -6,15 +6,13 @@ import {
   ToastAndroid
 } from "react-native";
 import { COLORS } from "../../../constants";
-import { Ionicons } from "@expo/vector-icons";
 import CustomInput from "../atoms/CustomInput";
-import * as Yup from "yup";
 import { Formik } from "formik";
 import CustomButton from "../atoms/CustomButton";
 import { LoginSchema } from "../validations/authValidations";
 import createAxiosInstance from "../../utils/api";
 import { useNavigation, router } from "expo-router";
-import { storeDataInStorage } from "../../utils/storage";
+import { storeDataInStorage,getDataFromStorage } from "../../utils/storage";
 
 export default function LoginForm() {
   const navigation = useNavigation();
@@ -37,7 +35,10 @@ export default function LoginForm() {
 
           //send to login page here
           ToastAndroid.show('Login successfull!', ToastAndroid.LONG);
+          console.log("before storage",response.data);
           await storeDataInStorage("auth", response.data);
+          let datum = await getDataFromStorage("auth");
+          console.log("after storage", datum);
           goToHome();
         }
       })

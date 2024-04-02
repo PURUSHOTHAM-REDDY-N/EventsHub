@@ -5,8 +5,7 @@ import { getDataFromStorage } from './storage';
 const createAxiosInstance = async () => {
   try {
     const authTokenData = await getDataFromStorage("auth");
-    const authToken = authTokenData?.authToken || '';
-
+    const authToken = authTokenData?.user.token || '';
     const api = axios.create({
       baseURL: process.env.EXPO_PUBLIC_BACKEND_API_URL, // Update this to match your API server's address
       headers: {

@@ -32,15 +32,10 @@ const Login = () => {
         </View>
         <View style={{ flex: 1, height: 2, backgroundColor: COLORS.grey1 }} />
       </View>
-      {/* social Login */}
       <View style={{ flexDirection: "row", alignItems: "center", marginTop:28 }}>
       <CustomOutlinebtn onPress={()=>router.push('screens/auth/Signup')} style={styles.customButton} title="Sign Up" />
       </View>
-      {/* signup text */}
-      {/* <View style={{marginTop:24,flex:1,flexDirection:"row",justifyContent:"center"}}>
-        <Text style={styles.signUpText}>Don’t have an account? </Text>
-        <Text onPress={()=>router.push('screens/auth/signup')} style={[styles.signUpText,{textDecorationLine:"underline",color:COLORS.primary}]}>Sign up</Text>
-      </View> */}
+      
       </ScrollView>
     </SafeAreaView>
   );

@@ -5,6 +5,7 @@ const COLORS = {
   black: "#292929",
   white: "#F3F4F8",
   lightWhite: "#FAFAFC",
+  red:"FF0000"
 };
 
 

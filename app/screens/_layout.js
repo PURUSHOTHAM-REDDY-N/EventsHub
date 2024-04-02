@@ -19,7 +19,6 @@ const authRoute = 1
   return (
     <Stack screenOptions={{headerShown:false}}>
       <Stack.Screen name="auth"/>
-      <Stack.Screen name="events"/>
     </Stack>
   )
 };

@@ -6,7 +6,7 @@ const CreateEventSchema = Yup.object().shape({
   start_date: Yup.string().required("Required"),
   start_time: Yup.string().required("Required"),
   end_time: Yup.string().required("Required"),
-  event_location_type: Yup.string().required("Required"),
+  event_location_type: Yup.string(),
   event_location: Yup.string().required("Required"),
   event_type: Yup.string().required("Required"),
   // image: Yup.string()

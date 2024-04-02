@@ -1,38 +1,37 @@
 import { React, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet,ToastAndroid } from "react-native";
 import { COLORS } from "../../../constants";
-import { Ionicons } from "@expo/vector-icons";
 import CustomInput from "../atoms/CustomInput";
 import { Formik } from "formik";
 import CustomButton from "../atoms/CustomButton";
 import createAxiosInstance from "../../utils/api";
-import { useNavigation, router,Link } from "expo-router";
-import { storeDataInStorage } from "../../utils/storage";
 import { CreateEventSchema } from "../validations/eventValidatons";
 import { Text, Button } from "react-native-paper";
-import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { Picker } from "@react-native-picker/picker";
 import DateTimePicker from "../atoms/DateTimePicker";
+import { useRouter } from "expo-router";
 
 export default function CreateEventForm() {
-  const navigation = useNavigation();
 
-  const goToHome = () => {
-    router.replace("screens/(main)/home");
-  };
+  const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
+
+
 
   const fetchData = async (values) => {
+    setLoading(true)
     const api = await createAxiosInstance();
     api
-      .post(`/auth/login`, values)
+      .post(`events/createEvent`, values)
       .then(async (response) => {
         // handle success
         console.log(response);
-        if (response.status === 201) {
+        if (response.status === 200) {
+          setLoading(false)
           //send to login page here
-          console.log("executed");
-          await storeDataInStorage("auth", response.data);
-          goToHome();
+          console.log(response.data.event_id);
+          router.push({pathname:`/screens/CreateEventTicket/${response.data.event_id}`})
         }
       })
       .catch((error) => {
@@ -40,14 +39,11 @@ export default function CreateEventForm() {
       });
   };
 
+  const item ={id:"11"}
+
 
   return (
     <View style={styles.container}>
-              <Link href="/screens/events/CreateEventTicket">About</Link>
-
-      <Button icon="camera" mode="contained" onPress={() => navigation.navigate("screens/events")}>
-    Press me
-  </Button>
       <Formik
         initialValues={{
           title: "",
@@ -62,9 +58,10 @@ export default function CreateEventForm() {
         validationSchema={CreateEventSchema}
         onSubmit={(values) => {
           // make API request
-          // fetchData(values);
-          console.log("submitted");
+          fetchData(values);
           console.log(values);
+          // fetchData(values)
+          console.log("submitted");
         }}
       >
         {({
@@ -160,16 +157,17 @@ export default function CreateEventForm() {
               >
                 <Picker
                   selectedValue={values.event_location_type}
-                  onValueChange={(itemValue, itemIndex) =>
+                  onValueChange={(itemValue, itemIndex) =>{
+                    console.log(values.event_location_type)
                     setFieldValue("event_location_type", itemValue)
-                  }
+                  }}
                 >
                   <Picker.Item label="Offline" value="OFFLINE" />
                   <Picker.Item label="Online" value="ONLINE" />
                 </Picker>
               </View>
               
-              {values.event_location_type === "OFFLINE" ? (
+              {values.event_location_type === "OFFLINE" ? 
                 <>
                   <Text style={{ paddingVertical: 10 }} variant="titleMedium">
                     Event Location
@@ -181,9 +179,7 @@ export default function CreateEventForm() {
                     placeholder={"event location"}
                   />
                 </>
-              ) : (
-                () => {}
-              )}
+               : ''}
 
               <Text style={{ paddingVertical: 10 }} variant="titleMedium">
                 Event Type
@@ -208,7 +204,7 @@ export default function CreateEventForm() {
                 </Picker>
               </View>
               <View style={{ marginTop: 48 }}>
-                <CustomButton onPress={handleSubmit} title="Create Event" />
+                <CustomButton loading={loading} disabled={!isValid}  onPress={handleSubmit} title="Create Event" />
               </View>
             </View>
           </>

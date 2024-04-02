@@ -9,6 +9,7 @@ export default function CustomInput({ icon, data,value,placeholder,keyboardType,
     <View style={styles.formContainer}>
       <Ionicons name={icon} size={18} color={COLORS.grey2} />
       <TextInput
+      returnKeyType="next"
       onChange={onChange}
       value={value}
       onChangeText={onChangeText}
