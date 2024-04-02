@@ -1,6 +1,6 @@
 import { Redirect } from "expo-router";
 
-const authRoute = 1
+const authRoute = 0
 
 export default function Index() {
     
