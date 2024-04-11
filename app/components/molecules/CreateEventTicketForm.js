@@ -21,24 +21,19 @@ export default function CreateEventTicketForm({event_id}) {
 
 
   const fetchData = async (values) => {
-    setLoading(true)
+      setLoading(true);
     const api = await createAxiosInstance();
-    api
-      .post(`events/createEventTicket`, values)
-      .then(async (response) => {
-        // handle success
-        console.log(response);
-        if (response.status === 200) {
-          setLoading(false)
+    let response = await api.post(`/events/createEventTicket`, values);
+    if (response.status === 200) {
+      setLoading(false)
           //send to login page here
           ToastAndroid.show('Event Created successfully!', ToastAndroid.LONG);
           console.log(response.data.ticket_id);
           router.push({pathname:`/screens/home`})
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    } else {
+      setLoading(false);
+      ToastAndroid.show('backend isuue', ToastAndroid.LONG);
+    }
   };
   return (
     <View style={styles.container}>

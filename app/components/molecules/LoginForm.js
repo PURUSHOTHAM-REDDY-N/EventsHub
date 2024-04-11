@@ -1,10 +1,5 @@
 import { React, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ToastAndroid
-} from "react-native";
+import { View, Text, StyleSheet, ToastAndroid } from "react-native";
 import { COLORS } from "../../../constants";
 import CustomInput from "../atoms/CustomInput";
 import { Formik } from "formik";
@@ -12,43 +7,37 @@ import CustomButton from "../atoms/CustomButton";
 import { LoginSchema } from "../validations/authValidations";
 import createAxiosInstance from "../../utils/api";
 import { useNavigation, router } from "expo-router";
-import { storeDataInStorage,getDataFromStorage } from "../../utils/storage";
+import { storeDataInStorage, getDataFromStorage } from "../../utils/storage";
 
 export default function LoginForm() {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
+
 
   const goToHome = () => {
     router.replace("screens/(main)/home");
   };
 
   const fetchData = async (values) => {
-    setLoading(true)
-    const api = await createAxiosInstance();
-    api
-      .post(`/auth/login`, values)
-      .then(async (response) => {
-        // handle success
-        console.log(response);
-        if (response.status === 200) {
-          setLoading(false)
+    setLoading(true);
+    let api = await createAxiosInstance();
+    let response = await api.post(`/auth/login`, values);
+    if (response.status === 200) {
+      setLoading(false);
 
-          //send to login page here
-          ToastAndroid.show('Login successfull!', ToastAndroid.LONG);
-          console.log("before storage",response.data);
-          await storeDataInStorage("auth", response.data);
-          let datum = await getDataFromStorage("auth");
-          console.log("after storage", datum);
-          goToHome();
-        }
-      })
-      .catch((error) => {
-        setLoading(false)
-        ToastAndroid.show(error.message, ToastAndroid.LONG);
-
-        console.log(error);
-      });
+      //send to login page here
+      ToastAndroid.show("Login successfull!", ToastAndroid.LONG);
+      console.log("before storage", response.data);
+      await storeDataInStorage("auth", response.data);
+      let datum = await getDataFromStorage("auth");
+      console.log("after storage", datum);
+      goToHome();
+    } else {
+      setLoading(false);
+      ToastAndroid.show('backend issue', ToastAndroid.LONG);
+    }
   };
+
 
   return (
     <View style={styles.container}>
@@ -72,7 +61,6 @@ export default function LoginForm() {
         }) => (
           <>
             <Text style={styles.emailLabel}>Email</Text>
-
             <CustomInput
               onChangeText={handleChange("email")}
               value={values.email}
@@ -90,7 +78,7 @@ export default function LoginForm() {
               onChangeText={handleChange("password")}
               value={values.password}
               placeholder={"Enter password"}
-              icon={"mail-outline"}
+              icon={"key-outline"}
             />
             {touched.password && errors.password && (
               <Text style={styles.errorText}>{errors.password}</Text>
@@ -98,7 +86,7 @@ export default function LoginForm() {
 
             <View style={{ marginTop: 48 }}>
               <CustomButton
-              loading={loading}
+                loading={loading}
                 disabled={!isValid}
                 onPress={handleSubmit}
                 title="Login"

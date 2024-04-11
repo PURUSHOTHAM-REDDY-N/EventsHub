@@ -6,9 +6,35 @@
       "bundler": "metro"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
     ],
     "name": "EventsHub",
-    "slug": "EventsHub"
+    "slug": "EventsHub",
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "fe76e787-e237-4d03-b487-6a7abb06eb84"
+      }
+    },
+    "android": {
+      "package": "com.purushotham11.EventsHub"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/fe76e787-e237-4d03-b487-6a7abb06eb84"
+    },
+    "ios": {}
   }
 }

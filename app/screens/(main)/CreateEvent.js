@@ -12,7 +12,7 @@ const Create = () => {
           headerShown: false,
         }}
       />
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps='handled'>
 
       <View style={{marginHorizontal:20}}>
         

@@ -4,5 +4,5 @@ const authRoute = 0
 
 export default function Index() {
     
-    return authRoute?<Redirect href="screens/home" />:<Redirect href="screens/auth" />;
+    return authRoute?<Redirect href="screens/profile" />:<Redirect href="screens/auth" />;
 }

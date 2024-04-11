@@ -7,6 +7,7 @@ export default function _layout() {
     <Stack initialRouteName="index">
         <Stack.Screen name='index' options={{headerTitle:"profile"}}/>
         <Stack.Screen name='settings' options={{headerTitle:"settings"}}/>
+        <Stack.Screen name='EditProfile' options={{headerTitle:"EditProfile"}}/>
     </Stack>
   )
 }

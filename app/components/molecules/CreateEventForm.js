@@ -22,21 +22,16 @@ export default function CreateEventForm() {
   const fetchData = async (values) => {
     setLoading(true)
     const api = await createAxiosInstance();
-    api
-      .post(`events/createEvent`, values)
-      .then(async (response) => {
-        // handle success
-        console.log(response);
-        if (response.status === 200) {
-          setLoading(false)
+    let response = await api.post(`/events/createEvent`, values);
+    if (response.status === 200) {
+      setLoading(false)
           //send to login page here
           console.log(response.data.event_id);
           router.push({pathname:`/screens/CreateEventTicket/${response.data.event_id}`})
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    } else {
+      setLoading(false);
+      ToastAndroid.show('backend isuue', ToastAndroid.LONG);
+    }
   };
 
   const item ={id:"11"}
@@ -112,7 +107,6 @@ export default function CreateEventForm() {
               <DateTimePicker
               minimumDate={new Date()}
                 value={values.start_date}
-                date={new Date(values.start_date)}
                 mode={"date"}
                 onConfirm={(date) => {
                   setFieldValue("start_date", date.toISOString());

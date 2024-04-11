@@ -15,7 +15,7 @@ const Login = () => {
           headerShown: false,
         }}
       />
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps='handled'>
 
       {/* Welcome Text   */}
       <View style={{ marginTop: 65 }}>

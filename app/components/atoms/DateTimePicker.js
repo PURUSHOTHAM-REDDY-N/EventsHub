@@ -3,7 +3,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Text } from "react-native-paper"
 import { COLORS } from "../../../constants";
 
-export default function DateTimePicker({ mode, date, time, onConfirm,value,minimumDate }) {
+export default function DateTimePicker({ mode, date, time, onConfirm,value,minimumDate,maximumDate }) {
   const [dateTimePickerVisible, setDateTimePickerVisible] = useState(null);
 
   const toggleDateTimePicker =  () => {
@@ -32,6 +32,7 @@ export default function DateTimePicker({ mode, date, time, onConfirm,value,minim
         {time?new Date(value).toLocaleTimeString():new Date(value).toDateString()}
       </Text>
       <DateTimePickerModal
+      maximumDate={maximumDate}
       minimumDate={minimumDate}
         isVisible={dateTimePickerVisible}
         mode={mode}

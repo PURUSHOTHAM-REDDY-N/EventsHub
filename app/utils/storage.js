@@ -14,7 +14,7 @@ const getDataFromStorage = async (key)=>{
     try {
         const jsonData = await AsyncStorage.getItem(key);
         if (jsonData) {
-          console.log("jsonData",JSON.parse(jsonData))
+          console.log("jsonData from local storage",JSON.parse(jsonData))
           console.log(JSON.parse(jsonData))
           return JSON.parse(jsonData);
         }

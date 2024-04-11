@@ -15,25 +15,22 @@ export default function SignUpForm() {
   const [loading, setLoading] = useState(false);
 
   const fetchData = async (values) => {
-    const api = await createAxiosInstance();
-    api
-      .post(`/auth/register`, values)
-      .then((response) => {
-        // handle success
-        console.log(response.status);
-        if (response.status === 200) {
-          setLoading(false);
+    setLoading(true);
+    let api = await createAxiosInstance();
+    let response = await api.post(`/auth/register`, values);
+    console.log(response.status);
+    if (response.status === 200) {
+      setLoading(false);
           ToastAndroid.show("Signup successfull!", ToastAndroid.LONG);
           //send to login page here
           navigation.navigate("login");
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-        ToastAndroid.show(error.message, ToastAndroid.LONG);
-        console.log(error);
-      });
+    } else {
+      setLoading(false);
+      ToastAndroid.show('User Already Exists', ToastAndroid.LONG);
+    }
   };
+
+  
 
   return (
     <View style={styles.container}>
