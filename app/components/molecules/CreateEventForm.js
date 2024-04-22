@@ -27,6 +27,7 @@ export default function CreateEventForm() {
       setLoading(false)
           //send to login page here
           console.log(response.data.event_id);
+          ToastAndroid.show('Created as Draft', ToastAndroid.LONG);
           router.push({pathname:`/screens/CreateEventTicket/${response.data.event_id}`})
     } else {
       setLoading(false);

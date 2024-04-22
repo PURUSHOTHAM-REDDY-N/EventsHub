@@ -1,7 +1,7 @@
-import { SafeAreaView, ScrollView, View, StyleSheet } from "react-native";
+import { SafeAreaView, ScrollView, View, StyleSheet,FlatList,ActivityIndicator } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import { Link } from "expo-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
 import { COLORS } from "../../../constants";
 import AvatarImage from "../../components/atoms/AvatarImage";
 import SearchBar from "../../components/atoms/SearchBar";
@@ -10,27 +10,38 @@ import { Avatar, Button, Card, Text } from "react-native-paper";
 import createAxiosInstance from "../../utils/api";
 import  {getDataFromStorage}  from "../../utils/storage";
 
-const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
-
 const Home = () => {
   const [searchPhrase, setSearchPhrase] = useState("");
   const [clicked, setClicked] = useState(false);
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [userDetails, setUserDetails] = useState();
-  // get data from the fake api endpoint
+  const [nextPageIdentifier,setNextPageIdentifier] = useState('0');
+  const [hasNextPage,setHasNextPage] = useState(true)
+
 
   const router = useRouter();
 
+  useEffect(() => {
+    fetchData();
+    fetchUserDetails()
+  }, []);
+
+
   const fetchData = async (values) => {
+    console.log('called api ')
     setLoading(true);
     let api = await createAxiosInstance();
-    let response = await api.get(`/events/getAllEvents`, {});
-
+    let response = await api.get(`/events/getAllEvents`, {take:8,lastCursor:nextPageIdentifier});
+    console.log(response)
     if (response.status === 200) {
       setLoading(false);
+      // console.log('dta',response.data.data)
       //send to login page here
-      setEvents(response.data);
+      setHasNextPage(response.data.metaData.hasNextPage)
+      setNextPageIdentifier(response.data.metaData.lastCursor)
+      setEvents(prevEvents=>[...prevEvents, ...response.data.data]);
+
     } else {
       setLoading(false);
       ToastAndroid.show("backend issue", ToastAndroid.LONG);
@@ -43,10 +54,59 @@ const Home = () => {
     console.log('user here ',user)
   };
 
-  useEffect(() => {
-    fetchUserDetails()
-    fetchData();
-  }, []);
+  const fetchNextPage = async () => {
+    console.log('load new items')
+    if (hasNextPage && !loading) {
+      await fetchData();
+    }
+  };
+
+  const ListEndLoader = () => {
+    if (loading) {
+      // Show loader at the end of list when fetching next page data.
+      return <ActivityIndicator size={'large'} />;
+    }
+  };
+
+
+  let renderItem = ({ item }) => {
+    return <View  >
+    <Card
+      onPress={() =>
+        router.push({
+          pathname: `/screens/EventDetails/${item.event_id}`,
+        })
+      }
+      theme={{ colors: { primary: "green" } }}
+    >
+      <Card.Cover
+        source={{ uri: process.env.EXPO_PUBLIC_IMAGE_URL }}
+      />
+      
+      <Card.Content>
+        <Text style={{ paddingVertical: 10 }} variant="titleLarge">
+          {item.title}
+        </Text>
+        <Text style={{ paddingVertical: 10 }} variant="titleLarge">
+        
+        </Text>
+        <Text variant="bodyMedium">{item.description}</Text>
+        <Text variant="bodyMedium">
+          Event Starting on{" "}
+          {new Date(item.start_date).toDateString()}
+        </Text>
+        {item.event_location_type === "OFFLINE" ? (
+          <>
+            <Text>Event Location : {item.event_location}</Text>
+          </>
+        ) : (
+          <Text>Location : OFFLINE</Text>
+        )}
+        {/* <Text variant="bodyMedium">Published On : {new Date(item.created_at).toDateString()}</Text> */}
+      </Card.Content>
+    </Card>
+  </View>;
+  };
   return (
     <SafeAreaView style={styles.safeareaContainer}>
       <Stack.Screen
@@ -62,6 +122,7 @@ const Home = () => {
           paddingHorizontal: 10,
         }}
       >
+        
         {userDetails && (
           <>
         <View style={{ flexDirection: "column" }}>
@@ -107,46 +168,21 @@ const Home = () => {
           justifyContent: "space-between",
           marginTop: 20,
           paddingHorizontal: 10,
+          paddingBottom:160
         }}
       >
-        <ScrollView>
-          <View style={{ paddingBottom: 200 }}>
-            {events.map((item, index) => (
-              <View style={{ paddingVertical: 20 }} key={index}>
-                <Card
-                  onPress={() =>
-                    router.push({
-                      pathname: `/screens/EventDetails/${item.event_id}`,
-                    })
-                  }
-                  theme={{ colors: { primary: "green" } }}
-                >
-                  <Card.Cover
-                    source={{ uri: "https://i.ibb.co/2cTP70v/event-img.jpg" }}
-                  />
-                  <Card.Content>
-                    <Text style={{ paddingVertical: 10 }} variant="titleLarge">
-                      {item.title}
-                    </Text>
-                    <Text variant="bodyMedium">{item.description}</Text>
-                    <Text variant="bodyMedium">
-                      Event Starting on{" "}
-                      {new Date(item.start_date).toDateString()}
-                    </Text>
-                    {item.event_location_type === "OFFLINE" ? (
-                      <>
-                        <Text>Event Location : {item.event_location}</Text>
-                      </>
-                    ) : (
-                      <Text>Location : OFFLINE</Text>
-                    )}
-                    {/* <Text variant="bodyMedium">Published On : {new Date(item.created_at).toDateString()}</Text> */}
-                  </Card.Content>
-                </Card>
-              </View>
-            ))}
-          </View>
-        </ScrollView>
+        <FlatList
+        data={events}
+        renderItem={(item)=>renderItem(item)}
+        onEndReached={fetchNextPage}
+        ListFooterComponent={ListEndLoader}
+        contentContainerStyle={{gap:20}}
+        // scrollEnabled={!loading}
+        // initialNumToRender={8}
+        // bounces={false}
+        // keyExtractor={(item,index)=>index.toString()}
+        />
+          
       </View>
     </SafeAreaView>
   );
@@ -168,5 +204,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
+
+
 
 export default Home;

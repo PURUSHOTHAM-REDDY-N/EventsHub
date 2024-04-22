@@ -1,5 +1,3 @@
-import { Stack } from "expo-router";
-import { useFonts } from "expo-font";
 import { Tabs } from 'expo-router';
 import { Ionicons } from "@expo/vector-icons";
 import AvatarImage from "../../components/atoms/AvatarImage";

@@ -1,13 +1,16 @@
 import {  React,useEffect,useState } from "react";
 import { SafeAreaView, View,Image,ToastAndroid, ScrollView } from "react-native";
-import { Stack } from "expo-router";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams,useRouter } from "expo-router";
 import { Text } from "react-native-paper";
 import  createAxiosInstance  from "../../utils/api";
+import CustomButton from "../../components/atoms/CustomButton";
 
 export default function CreateEventTicket() {
 
   const [data, setData] = useState({});
+
+  const router = useRouter();
+
 
   
   const id = useLocalSearchParams().id;
@@ -37,13 +40,13 @@ useEffect(() => {
 
   console.log(id);
   return (
-    <SafeAreaView>
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
-      />
-      <ScrollView>
+    // <SafeAreaView>
+    //   <Stack.Screen
+    //     options={{
+    //       headerShown: false,
+    //     }}
+    //   />
+      <ScrollView style={{maxHeight:"2000"}}>
         <View>
         <Image style={{height:300,width:"100%"}} source={{ uri: "https://i.ibb.co/2cTP70v/event-img.jpg" }}/>
         </View>
@@ -62,12 +65,20 @@ useEffect(() => {
                   ) : (
                     <Text style={{ paddingVertical: 5 }}>Location : OFFLINE</Text>
                   )}
+                  <Text style={{ paddingVertical: 5 }} variant="bodyMedium">
+                    Event Type : {data.event_type}
+                  </Text>
                   <Text style={{ paddingVertical: 5 }} variant="bodyMedium">Event Status : {data.event_status}</Text>
                   {/* <Text variant="bodyMedium">Published On : {new Date(item.created_at).toDateString()}</Text> */}
+                  <View style={{marginTop:100}}>
+          <CustomButton onPress={()=>router.push({pathname:`/screens/TicketDetails/${data.event_id}`})} title={'Book Event'}/>
         </View>
+        </View>
+
+        
       </ScrollView>
         
-      <View style={{ marginBottom: 40 }}></View>
-    </SafeAreaView>
+    //   <View style={{ marginBottom: 40 }}></View>
+    // </SafeAreaView>
   );
 }

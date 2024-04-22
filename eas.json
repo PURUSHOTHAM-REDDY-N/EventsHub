@@ -11,6 +11,11 @@
       "android": {
         "buildType": "apk"
       },
+      "env": {
+        "IMAGE_URL": "https://elasticbeanstalk-eu-north-1-992382379395.s3.eu-north-1.amazonaws.com/1713707128363.jpg"
+      },
+    
+      
       "distribution": "internal",
       "channel": "preview"
     },

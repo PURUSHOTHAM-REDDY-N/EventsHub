@@ -1,4 +1,4 @@
-import { SafeAreaView, ScrollView, View, Text } from "react-native";
+import { SafeAreaView, ScrollView, View, Text,TouchableOpacity } from "react-native";
 import { Stack, useRouter,useNavigation } from "expo-router";
 import { Link } from "expo-router";
 import AvatarImage from "../../../components/atoms/AvatarImage";
@@ -94,16 +94,19 @@ const Profile = () => {
               <CustomButton onPress={()=>router.push("screens/(main)/profile/EditProfile")} title={"Edit"} />
             </View>
             <View
-              style={{
+              
+            >
+              <TouchableOpacity style={{
                 marginTop: 50,
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-between",
                 alignItems: "center",
-              }}
-            >
+              }} onPress={()=>router.push("screens/(main)/profile/UserCreatedEvents")}>
+                
               <Text
-                style={{ marginVertical: 10, fontWeight: 500, fontSize: 18 }}
+              
+              style={{ marginVertical: 10, fontWeight: 500, fontSize: 18 }}
               >
                 Created Events
               </Text>
@@ -111,18 +114,20 @@ const Profile = () => {
                 name={"arrow-forward-outline"}
                 size={18}
                 color={COLORS.primary}
-              />
+                />
+            </TouchableOpacity>
             </View>
             <Divider />
             <View
-              style={{
-                marginTop: 10,
+              
+            >
+
+<TouchableOpacity style={{
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-between",
                 alignItems: "center",
-              }}
-            >
+              }} onPress={()=>router.push("screens/(main)/profile/PurchasedTickets")}>
               <Text
                 style={{ marginVertical: 10, fontWeight: 500, fontSize: 18 }}
               >
@@ -133,6 +138,7 @@ const Profile = () => {
                 size={18}
                 color={COLORS.primary}
               />
+              </TouchableOpacity>
             </View>
             <Divider />
             <View

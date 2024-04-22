@@ -9,6 +9,10 @@ const createFetchInstance = async () => {
       'Authorization': `Bearer ${authToken}`,
     };
 
+    const imageHeaders ={
+      "Content-Type": "multipart/form-data",
+    }
+
     return {
       get: async (url, queryParams) => {
         try {
@@ -20,7 +24,6 @@ const createFetchInstance = async () => {
       
           // Append the query string to the URL
           const fullUrl = queryString ? `https://babailinks.com/api${url}?${queryString}` : `https://babailinks.com/api${url}`;
-      
           let response = await fetch(fullUrl, {
             method: 'GET',
             headers: headers,
@@ -50,6 +53,23 @@ const createFetchInstance = async () => {
           throw error;
         }
       },
+      postImage:async (url, formData) => {
+        try {
+          let response = await fetch(`https://babailinks.com/api${url}`, {
+            method: 'POST',
+            headers: imageHeaders,
+            body: formData,
+          });
+          let data = await response.json();
+          console.log(data)
+          let gotRes={status:response.status,data}
+          console.log("got res inside instance",gotRes)
+          return gotRes;
+        } catch (error) {
+          console.error('Error with POST request:', error);
+          throw error;
+        }
+      }
       // Add other HTTP methods (PUT, DELETE, etc.) as needed
     };
   } catch (error) {

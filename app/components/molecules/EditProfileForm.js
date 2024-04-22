@@ -1,7 +1,6 @@
 import { React, useState, useEffect } from "react";
-import { CreateEventTicketSchema } from "../validations/ticketValidation";
 import { Formik } from "formik";
-import { View, StyleSheet, ToastAndroid } from "react-native";
+import { View, StyleSheet, ToastAndroid,Image } from "react-native";
 import CustomButton from "../atoms/CustomButton";
 import CustomInput from "../atoms/CustomInput";
 import { COLORS } from "../../../constants";
@@ -12,11 +11,69 @@ import { getDataFromStorage } from "../../utils/storage";
 import DateTimePicker from "../atoms/DateTimePicker";
 import CountryPickerComponent  from "../atoms/CountryPicker";
 import { EditProfileSchema } from "../validations/editProfileValidation";
+import * as ImagePicker from 'expo-image-picker';
+
 
 export default function EditProfileForm({ username, email }) {
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
   const [userDetails, setUserDetails] = useState();
+  const [image, setImage] = useState(null);
+
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0]);
+      console.log('uri here ',result.assets[0])
+    }
+  };
+
+  const postImage = async ()=>{
+    const formData = new FormData();
+    formData.append("image", {
+      uri: image.uri,
+      name: "myimage.jpg",
+      filename:"imageFile",
+      type: image.mimeType,
+    });
+
+    return formData
+
+  }
+
+  const uploadprofilePic=async()=>{
+    setLoading(true);
+    let api = await createAxiosInstance();
+    const formData = new FormData();
+    formData.append("image", {
+      uri: image.uri,
+      name: "myimage.jpg",
+      filename:"imageFile",
+      type: image.mimeType,
+    });
+    let response = await api.postImage(`/image/upload`, formData);
+
+    if (response.status === 200) {
+      setLoading(false);
+      ToastAndroid.show("User Updated", ToastAndroid.LONG);
+
+      //send to login page here
+    } else {
+      setLoading(false);
+      ToastAndroid.show("backend issue", ToastAndroid.LONG);
+    }
+  }
+
+
 
   const fetchData = async (values) => {
     setLoading(true);
@@ -47,6 +104,11 @@ export default function EditProfileForm({ username, email }) {
 
   return (
     <View style={styles.container}>
+      <View style={styles.container}>
+      <CustomButton title="Pick an image from camera roll" onPress={pickImage} />
+      <CustomButton title="upload" onPress={uploadprofilePic} />
+      {image && <Image source={{ uri: image.uri }} style={{width:200,height:200}} />}
+    </View>
       {userDetails && <>
         <Formik
         initialValues={{
