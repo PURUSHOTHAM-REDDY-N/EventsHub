@@ -4,6 +4,7 @@ import { useLocalSearchParams,useRouter } from "expo-router";
 import { Text } from "react-native-paper";
 import  createAxiosInstance  from "../../utils/api";
 import CustomButton from "../../components/atoms/CustomButton";
+import CustomImage from "../../components/atoms/CustomImage";
 
 export default function CreateEventTicket() {
 
@@ -48,7 +49,7 @@ useEffect(() => {
     //   />
       <ScrollView style={{maxHeight:"2000"}}>
         <View>
-        <Image style={{height:300,width:"100%"}} source={{ uri: "https://i.ibb.co/2cTP70v/event-img.jpg" }}/>
+        <CustomImage  height={300} width={'100%'} src={data.image} />
         </View>
         <View style={{marginHorizontal:20,flex:1,flexDirection: 'colummn'}} >
                   <Text style={{ paddingVertical: 10 }} variant="titleLarge">

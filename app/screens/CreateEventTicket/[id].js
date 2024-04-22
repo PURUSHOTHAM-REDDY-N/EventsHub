@@ -2,7 +2,7 @@ import React from "react";
 import { SafeAreaView, View, ScrollView } from "react-native";
 import { Stack } from "expo-router";
 import { useLocalSearchParams } from "expo-router";
-import CreateEventTicketForm from "../../components/molecules/CreateEventTicketForm";
+import CreateEventTicketForm from "../../components/forms/CreateEventTicketForm";
 
 export default function CreateEventTicket() {
   const // The route parameter

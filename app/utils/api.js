@@ -1,5 +1,6 @@
 import { getDataFromStorage } from './storage';
 
+
 const createFetchInstance = async () => {
   try {
     const authTokenData = await getDataFromStorage("auth");

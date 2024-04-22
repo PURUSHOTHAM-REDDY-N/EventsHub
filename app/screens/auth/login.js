@@ -2,7 +2,7 @@ import { SafeAreaView, ScrollView, View, Text, StyleSheet,ScrolView } from "reac
 import { Stack, useRouter } from "expo-router";
 import { Link } from "expo-router";
 import { COLORS, icons, images, SIZES } from "../../../constants";
-import LoginForm from "../../components/molecules/LoginForm";
+import LoginForm from "../../components/forms/LoginForm";
 import CustomOutlinebtn from "../../components/atoms/CustomOutlinebtn";
 
 

@@ -11,7 +11,8 @@ import { getDataFromStorage } from "../../utils/storage";
 import DateTimePicker from "../atoms/DateTimePicker";
 import CountryPickerComponent  from "../atoms/CountryPicker";
 import { EditProfileSchema } from "../validations/editProfileValidation";
-import * as ImagePicker from 'expo-image-picker';
+import ImagePickerComponent from "../atoms/ImagePickerComponent";
+import AvatarImage from "../atoms/AvatarImage";
 
 
 export default function EditProfileForm({ username, email }) {
@@ -21,34 +22,10 @@ export default function EditProfileForm({ username, email }) {
 
 
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    console.log(result);
-
-    if (!result.canceled) {
-      setImage(result.assets[0]);
-      console.log('uri here ',result.assets[0])
-    }
+    let image = await ImagePickerComponent()
+    setImage(image)
   };
 
-  const postImage = async ()=>{
-    const formData = new FormData();
-    formData.append("image", {
-      uri: image.uri,
-      name: "myimage.jpg",
-      filename:"imageFile",
-      type: image.mimeType,
-    });
-
-    return formData
-
-  }
 
   const uploadprofilePic=async()=>{
     setLoading(true);
@@ -64,8 +41,7 @@ export default function EditProfileForm({ username, email }) {
 
     if (response.status === 200) {
       setLoading(false);
-      ToastAndroid.show("User Updated", ToastAndroid.LONG);
-
+      return response.data.data
       //send to login page here
     } else {
       setLoading(false);
@@ -76,6 +52,8 @@ export default function EditProfileForm({ username, email }) {
 
 
   const fetchData = async (values) => {
+    const imageUploaded= await uploadprofilePic()
+    Object.assign(values,{image:imageUploaded})
     setLoading(true);
     let api = await createAxiosInstance();
     let response = await api.post(`/auth/editUserProfile`, values);
@@ -104,12 +82,17 @@ export default function EditProfileForm({ username, email }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.container}>
-      <CustomButton title="Pick an image from camera roll" onPress={pickImage} />
-      <CustomButton title="upload" onPress={uploadprofilePic} />
-      {image && <Image source={{ uri: image.uri }} style={{width:200,height:200}} />}
-    </View>
+      
       {userDetails && <>
+        <View style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+        {image ? <Image source={{ uri: image.uri }} style={{width:200,height:200}} />:<AvatarImage
+                src={userDetails.image}
+                size={100}
+                name={userDetails.username}
+              ></AvatarImage>}
+              <CustomButton title="Pick an image from camera roll" onPress={pickImage} />
+      </View>
+      
         <Formik
         initialValues={{
           username: userDetails.username,
@@ -178,8 +161,7 @@ export default function EditProfileForm({ username, email }) {
                   setFieldValue("dob", date.toISOString());
                 }}
               />
-              <Text>{values.dob}</Text>
-              <Text>{values.country}</Text>
+              
               {touched.dob && errors.dob && (
                 <Text style={styles.errorText}>{errors.dob}</Text>
               )}

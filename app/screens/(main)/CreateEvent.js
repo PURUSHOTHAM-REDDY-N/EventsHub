@@ -1,7 +1,7 @@
 import { SafeAreaView, ScrollView, View } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import { Link } from "expo-router";
-import CreateEventForm from "../../components/molecules/CreateEventForm";
+import CreateEventForm from "../../components/forms/CreateEventForm";
 
 const Create = () => {
   const router = useRouter();

@@ -80,16 +80,14 @@ const Home = () => {
       theme={{ colors: { primary: "green" } }}
     >
       <Card.Cover
-        source={{ uri: process.env.EXPO_PUBLIC_IMAGE_URL }}
+        source={{ uri: `https://elasticbeanstalk-eu-north-1-992382379395.s3.eu-north-1.amazonaws.com/${item.image?item.image:'1713707128363.jpg'}` }}
       />
       
       <Card.Content>
         <Text style={{ paddingVertical: 10 }} variant="titleLarge">
           {item.title}
         </Text>
-        <Text style={{ paddingVertical: 10 }} variant="titleLarge">
-        
-        </Text>
+
         <Text variant="bodyMedium">{item.description}</Text>
         <Text variant="bodyMedium">
           Event Starting on{" "}
@@ -135,6 +133,7 @@ const Home = () => {
         <View style={{ flexDirection: "column" }}>
           <Link href={"/screens/profile"}>
             <AvatarImage
+            src={userDetails.image}
               onPress={() => router.push("/profile")}
               size={40}
               name={userDetails.username}

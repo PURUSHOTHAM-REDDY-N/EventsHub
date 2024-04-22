@@ -1,11 +1,12 @@
 import React from 'react'
-import Avatar from 'react-avatar';
 import UserAvatar from 'react-native-user-avatar';
+import { Avatar } from 'react-native-paper';
 
 
 
 
 export default function AvatarImage(props) {
+  console.log('pops inside avatar',props.image)
   return (
     // <Avatar
     // name={props.alt}
@@ -13,7 +14,16 @@ export default function AvatarImage(props) {
     //   size={props.size}
     // />'
     <>
-      <UserAvatar src={`https://elasticbeanstalk-eu-north-1-992382379395.s3.eu-north-1.amazonaws.com/1713707128363.jpg`}  size={props.size} name={props.name} />
+    {props.src?<Avatar.Image
+    source={{
+      uri:
+      `https://elasticbeanstalk-eu-north-1-992382379395.s3.eu-north-1.amazonaws.com/${props.src}`,
+    }}
+    size={props.size}
+    />:
+    <Avatar.Text size={props.size} label={props.name} />
+  
+  }
     </>
   )
 }

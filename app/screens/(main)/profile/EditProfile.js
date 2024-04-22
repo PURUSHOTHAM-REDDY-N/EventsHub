@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, View,SafeAreaView,ScrollView } from 'react-native'
-import EditProfileForm from '../../../components/molecules/EditProfileForm'
+import EditProfileForm from '../../../components/forms/EditProfileForm'
 import {Stack} from 'expo-router'
 
 export default function EditProfile() {

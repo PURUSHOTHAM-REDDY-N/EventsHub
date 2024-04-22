@@ -5,7 +5,7 @@ import { COLORS } from '../../../constants'
 import CustomButton from '../../components/atoms/CustomButton';
 import CustomOutlinebtn from '../../components/atoms/CustomOutlinebtn';
 import { Ionicons } from "@expo/vector-icons";
-import SignUpForm from '../../components/molecules/SignUpForm';
+import SignUpForm from '../../components/forms/SignUpForm';
 
 
 

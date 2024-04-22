@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native'
 import { Stack } from 'expo-router';
 import { COLORS } from '../../../constants';
-import VerificationForm from '../../components/molecules/VerificationForm'
+import VerificationForm from '../../components/forms/VerificationForm'
 import React from 'react'
 
 

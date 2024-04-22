@@ -61,7 +61,7 @@ const Profile = () => {
               }}
             >
               <AvatarImage
-                
+                image={userDetails.user.image}
                 size={100}
                 name={userDetails.user.username}
               ></AvatarImage>

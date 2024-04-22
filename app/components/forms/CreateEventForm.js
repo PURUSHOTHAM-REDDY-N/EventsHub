@@ -1,25 +1,57 @@
 import { React, useState } from "react";
-import { View, StyleSheet,ToastAndroid } from "react-native";
+import { View, StyleSheet,ToastAndroid,Image } from "react-native";
 import { COLORS } from "../../../constants";
 import CustomInput from "../atoms/CustomInput";
 import { Formik } from "formik";
 import CustomButton from "../atoms/CustomButton";
 import createAxiosInstance from "../../utils/api";
 import { CreateEventSchema } from "../validations/eventValidatons";
-import { Text, Button } from "react-native-paper";
+import { Text } from "react-native-paper";
 import { Picker } from "@react-native-picker/picker";
 import DateTimePicker from "../atoms/DateTimePicker";
 import { useRouter } from "expo-router";
+import ImagePickerComponent from "../atoms/ImagePickerComponent";
 
 export default function CreateEventForm() {
 
   const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState(null);
+
 
   const router = useRouter();
 
 
+  const pickImage = async () => {
+    let image = await ImagePickerComponent()
+    setImage(image)
+  };
+
+  const uploadprofilePic=async()=>{
+    setLoading(true);
+    let api = await createAxiosInstance();
+    const formData = new FormData();
+    formData.append("image", {
+      uri: image.uri,
+      name: "myimage.jpg",
+      filename:"imageFile",
+      type: image.mimeType,
+    });
+    let response = await api.postImage(`/image/upload`, formData);
+
+    if (response.status === 200) {
+      setLoading(false);
+      return response.data.data
+      //send to login page here
+    } else {
+      setLoading(false);
+      ToastAndroid.show("backend issue", ToastAndroid.LONG);
+    }
+  }
 
   const fetchData = async (values) => {
+
+    const imageUploaded= await uploadprofilePic()
+    Object.assign(values,{image:imageUploaded})
     setLoading(true)
     const api = await createAxiosInstance();
     let response = await api.post(`/events/createEvent`, values);
@@ -40,6 +72,8 @@ export default function CreateEventForm() {
 
   return (
     <View style={styles.container}>
+      {image && <Image source={{ uri: image.uri }} style={{width:200,height:200}} />}
+      <CustomButton title="Pick an image from camera roll" onPress={pickImage} />
       <Formik
         initialValues={{
           title: "",
