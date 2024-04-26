@@ -55,7 +55,7 @@ useEffect(() => {
                   <Text style={{ paddingVertical: 10 }} variant="titleLarge">
                     {data.title}
                   </Text>
-                  <Text style={{ paddingVertical: 5 }} variant="bodyMedium">Event Description : {data.description}</Text>
+                  <Text style={{ paddingVertical: 5 }} variant="bodyMedium">Event Description : {data.description}{process.env.EXPO_PUBLIC_IMAGE_URL}</Text>
                   <Text style={{ paddingVertical: 5 }} variant="bodyMedium">
                     Event Starting on {new Date(data.start_date).toDateString()} from {new Date(data.start_time).toLocaleTimeString()} to {new Date(data.end_time).toLocaleTimeString()}
                   </Text>
