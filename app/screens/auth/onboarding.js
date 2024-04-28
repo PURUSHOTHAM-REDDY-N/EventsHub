@@ -5,8 +5,9 @@ import {
   FlatList,
   TouchableOpacity,
   Dimensions,
+  Alert,
 } from "react-native";
-import { React, useState, useRef } from "react";
+import { React, useState, useRef, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Stack, useRouter } from "expo-router";
 import LottieView from "lottie-react-native";
@@ -15,6 +16,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "../../../constants";
 import CustomButton from "../../components/atoms/CustomButton";
 import { router } from 'expo-router';
+import messaging from '@react-native-firebase/messaging';
+
 
 
 
@@ -22,6 +25,9 @@ import { router } from 'expo-router';
 export default function onboarding() {
   const flatListRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  
+
 
   const data = [
     {

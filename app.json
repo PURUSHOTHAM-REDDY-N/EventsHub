@@ -33,7 +33,8 @@
       }
     },
     "android": {
-      "package": "com.purushotham11.EventsHub"
+      "package": "com.purushotham11.EventsHub",
+      "googleServicesFile": "./google-services.json"
     },
     "runtimeVersion": {
       "policy": "appVersion"
