@@ -27,7 +27,7 @@
 ---
 
 ## 🚀 Overview  
-**EventsHub** is a powerful open-source framework for building scalable, cross-platform mobile event management applications. It combines robust configuration, seamless navigation, and a rich set of reusable components to accelerate development and ensure maintainability.  
+**EventsHub** is a powerful open-source cross-platform mobile event management applications. It combines robust configuration, seamless navigation, and a rich set of reusable components to accelerate development and ensure maintainability.  
 
 ### Why EventsHub?  
 This project simplifies mobile app development with:  
